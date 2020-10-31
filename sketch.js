@@ -4,65 +4,37 @@ let color = 'black';
 //let colNum = window.getComputedStyle(document.documentElement).getPropertyValue("--colNum");
 let def = 4;
 
-function createGrids(dimension) {
-    console.log(dimension);
-    for (var i = 0; i < dimension; i++) {
-        for (var j = 0; j < dimension; j++) {
-            defGrid();
-            console.log('appended');
+function createGrids() {
+    for (var i = 0; i < def; i++) {
+        for (var j = 0; j < def; j++) {
+            var grid = document.createElement('div');
+            grid.classList.add('square');
+            grid.style.border = '1px solid darkgray';
+            container.appendChild(grid);
+            grid.addEventListener('mouseover', colorGrid);
         }
     }
+    container.style.gridTemplateColumns = `repeat(${def}, 1fr)`
+    container.style.gridTemplateRows = `repeat(${def}, 1fr)`
 }
+createGrids();
 
-function defGrid() {
-    var grid = document.createElement('div');
-    grid.classList.add('square');
-    grid.style.border = '1px solid darkgray';
-    container.appendChild(grid);
-
+function colorGrid(e) {
+    e.target.style.backgroundColor = color;
 }
-
-function gridLayout() {
-    document.documentElement.style.setProperty('--colNum', def);
-}
-
-createGrids(def);
-gridLayout();
-
-const updateSize = document.getElementById('btn-update');
-
-updateSize.addEventListener('click', () => {
-    def = document.getElementById('size').value;
-    deleteGrids();
-    createGrids(def);
-    gridLayout();
-
-});
-
-function deleteGrids() {
-    var foo = document.getElementById('grid-container');
-        while (foo.lastChild) foo.removeChild(foo.lastChild);
-}
-
-const boxes = document.querySelectorAll('.square');
 
 
 const clr = document.getElementById('btn-clear');
 
-boxes.forEach((box) => {
-    box.addEventListener('mouseover', () => {
-        box.style.backgroundColor = color;
-        console.log('hovered');
-    })
-})
 
 clr.addEventListener('click', () => {
+    var boxes = document.querySelectorAll('.square');
     boxes.forEach((box) => {
         box.style.backgroundColor = 'white';
     })
 })
 
-const colorBtns = document.getElementById('color-grid').querySelectorAll('button');
+const colorBtns = document.querySelectorAll('.change-color');
 
 colorBtns.forEach((colorBtn) => {
     colorBtn.addEventListener('click', () => {
@@ -71,3 +43,22 @@ colorBtns.forEach((colorBtn) => {
         color = newColor;
     })
 })
+
+const updateSize = document.getElementById('btn-update');
+
+updateSize.addEventListener('click', () => {
+    var newSize = prompt("Enter new grid size(1-75):");
+    if (newSize >= 1 && newSize <= 75) {
+        def = newSize;
+        deleteGrids();
+        createGrids();
+    }
+    else {
+        window.alert("Invalid grid size entered!");
+    }
+})
+
+function deleteGrids() {
+    var box = document.getElementById('grid-container');
+    while(box.lastChild) box.removeChild(box.lastChild);
+}
