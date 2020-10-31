@@ -1,0 +1,36 @@
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+
+    :root {
+        --colNum: 4;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #grid-container {
+        width: 500px;
+        height: 500px;
+        background-color: white;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(var(--colNum), 1fr);
+    }
+
+    #color-grid {
+        display: inline;
+        margin: 0 50%;
+    }
+
+    #size-grid {
+        display: inline;
+        margin: 0 auto;
+    }
+
+    body {
+        margin: 3% auto;
+    }
+}
